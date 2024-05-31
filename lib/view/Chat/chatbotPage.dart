@@ -1,7 +1,9 @@
 import 'package:appchatbot/misc/constant.dart';
 import 'package:appchatbot/route/routeManager.dart';
 import 'package:appchatbot/view/Chat/chatbotForm.dart';
+import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
  
 class ChatBotPage extends StatelessWidget {
   const ChatBotPage({super.key});
@@ -11,11 +13,13 @@ class ChatBotPage extends StatelessWidget {
      return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        
         leading: IconButton(
           onPressed: () {
-            Navigator.popAndPushNamed(context, RouteManager.loginPage);
+            context.read<ChatViewModel>().close(context);
+            //Navigator.popAndPushNamed(context, RouteManager.loginPage);
           },
-          icon: const Icon(Icons.arrow_back_ios_new_sharp, 
+          icon: const Icon(Icons.close, 
           color: Colors.indigo,)),
         backgroundColor: Colors.white,
         title: const Text("ChatBot", 

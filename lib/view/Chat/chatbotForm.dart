@@ -23,7 +23,6 @@ class _ChatBotFormState extends State<ChatBotForm> {
       _messages.add({'text': text, 'sender': 'user'});
     });
     _controller.clear();
-    //_getBotResponse(text);
     context.read<ChatViewModel>().sendMessage(context,messages: _messages, texto: text);
     
     setState(() {
@@ -78,6 +77,10 @@ class _ChatBotFormState extends State<ChatBotForm> {
                     }
                   },
                 ),
+                IconButton(
+                  icon: const Icon(Icons.camera),
+                  onPressed: () { },
+                )
               ],
             ),
           ),

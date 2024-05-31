@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:appchatbot/request/UserRequest.dart';
 import 'package:appchatbot/response/loginResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';
-import 'package:appchatbot/service/apiConstant.dart';
+import 'package:appchatbot/util/apiConstant.dart';
 import 'package:appchatbot/util/constantGlobal.dart';
 import 'package:appchatbot/widget/dialog.dart';
 import 'package:flutter/cupertino.dart'; 

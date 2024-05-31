@@ -1,6 +1,6 @@
 import 'package:appchatbot/view/Chat/chatbot.dart';
 import 'package:appchatbot/view/Login/loginPage.dart';
-import 'package:appchatbot/view/splash/loadingPage.dart';
+import 'package:appchatbot/view/Splash/loadingPage.dart';
 import 'package:flutter/material.dart';
 
 class RouteManager {

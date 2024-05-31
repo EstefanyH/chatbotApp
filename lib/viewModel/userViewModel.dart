@@ -2,8 +2,11 @@
 import 'dart:convert';
 
 import 'package:appchatbot/request/UserRequest.dart';
+import 'package:appchatbot/response/loginResponse.dart';
+import 'package:appchatbot/response/userResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';
-import 'package:appchatbot/service/apiservice.dart';
+import 'package:appchatbot/service/apiConstant.dart';
+import 'package:appchatbot/util/constantGlobal.dart';
 import 'package:appchatbot/widget/dialog.dart';
 import 'package:flutter/cupertino.dart'; 
 import 'package:http/http.dart' as http;
@@ -19,9 +22,8 @@ class UserViewModel with ChangeNotifier{
   }) async {
     FocusManager.instance.primaryFocus?.unfocus();
     if(loginFormKey.currentState?.validate() ?? false) {
-
       
-      loginPostRequest(UserResquest(dni: email, password: password));
+      authentification(context, UserResquest(dni: email, password: password));
 
       //Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage);
       //showSnackBar();
@@ -57,27 +59,30 @@ class UserViewModel with ChangeNotifier{
     }
   }
 
-Future<void> loginPostRequest(UserResquest request) async {
+Future<void> authentification(BuildContext context, UserResquest request) async {
   // Define la URL de la API
-  final url = Uri.parse(APIService.Login);
+  final url = Uri.parse(APIConstant.API_LOGIN);
 
   // Haz la solicitud POST
   try {
     final response = await http.post(
       url,
       headers: {
-        'Content-Type': 'application/json', 
+        'Content-Type': APIConstant.ContentType, 
       },
-      body: request.toJson(), // Convierte el cuerpo a JSON
+      body: jsonEncode(request.toJson()), // Convierte el cuerpo a JSON
     );
 
     // Verifica el estado de la respuesta
     if (response.statusCode == 200) {
-      // Decodifica la respuesta si es un JSON
-      final responseBody = jsonEncode(response.body);
-      print('Respuesta de la API: $responseBody');
-    } else {
-      // Maneja el error de la API
+      // Decodifica la respuesta si es un JSON 
+      final data = LoginResponse.fromJson(jsonDecode(response.body));
+      print('Respuesta de la API: $data');
+      Token = data.token;
+      
+      Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage);
+
+    } else { 
       print('Error en la solicitud: ${response.statusCode}');
     }
   } catch (error) {

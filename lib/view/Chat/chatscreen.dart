@@ -15,7 +15,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final List<Map<String, String>> _messages = [];
   final TextEditingController _controller = TextEditingController();
   String? _projectId;
-  String? _sessionId = '123456'; // Puedes usar un ID de sesión fijo o generarlo dinámicamente.
+  String? _sessionId = '102910453948635067322'; // Puedes usar un ID de sesión fijo o generarlo dinámicamente.
   ServiceAccountCredentials? _credentials;
 
   @override

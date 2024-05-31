@@ -1,10 +1,6 @@
-import 'package:appchatbot/view/chatscreen.dart';
+import 'package:appchatbot/view/Chat/chatscreen.dart';
 import 'package:flutter/material.dart';
-/*
-void main() {
-  runApp(const ChatBotApp());
-}*/
-
+ 
 class ChatBotApp extends StatelessWidget {
   const ChatBotApp({super.key});
 

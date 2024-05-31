@@ -1,5 +1,6 @@
 
 import 'package:appchatbot/view/Login/loginForm.dart';
+import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
      
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserViewModel())
+        ChangeNotifierProvider(create: (context) => UserViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatViewModel()),
       ],
       child: MaterialApp( 
         debugShowCheckedModeBanner: false,

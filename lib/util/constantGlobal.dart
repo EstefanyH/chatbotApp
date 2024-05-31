@@ -1,1 +1,2 @@
 String Token = '';
+String IdUsuario = '';

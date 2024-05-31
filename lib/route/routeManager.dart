@@ -1,4 +1,4 @@
-import 'package:appchatbot/view/Chat/chatbot.dart';
+import 'package:appchatbot/view/Chat/chatbotPage.dart';
 import 'package:appchatbot/view/Login/loginPage.dart';
 import 'package:appchatbot/view/Splash/loadingPage.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +19,7 @@ class RouteManager {
         return MaterialPageRoute(builder: (context) => const RegisterPage());
       */
       case chatAppHomePage:
-        return MaterialPageRoute(builder: (context) => const ChatBotApp());
+        return MaterialPageRoute(builder: (context) => const ChatBotPage());
       
       default:
         throw Exception("No route found!");

@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:appchatbot/request/UserRequest.dart';
 import 'package:appchatbot/response/loginResponse.dart';
-import 'package:appchatbot/response/userResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';
 import 'package:appchatbot/service/apiConstant.dart';
 import 'package:appchatbot/util/constantGlobal.dart';
@@ -60,10 +59,9 @@ class UserViewModel with ChangeNotifier{
   }
 
 Future<void> authentification(BuildContext context, UserResquest request) async {
-  // Define la URL de la API
+   
   final url = Uri.parse(APIConstant.API_LOGIN);
-
-  // Haz la solicitud POST
+ 
   try {
     final response = await http.post(
       url,
@@ -72,13 +70,12 @@ Future<void> authentification(BuildContext context, UserResquest request) async 
       },
       body: jsonEncode(request.toJson()), // Convierte el cuerpo a JSON
     );
-
-    // Verifica el estado de la respuesta
-    if (response.statusCode == 200) {
-      // Decodifica la respuesta si es un JSON 
+ 
+    if (response.statusCode == 200) { 
       final data = LoginResponse.fromJson(jsonDecode(response.body));
-      print('Respuesta de la API: $data');
+      //print('Respuesta de la API: $data');
       Token = data.token;
+      IdUsuario = data.user.id;
       
       Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage);
 
@@ -91,30 +88,4 @@ Future<void> authentification(BuildContext context, UserResquest request) async 
   }
 }
 
-/*
-  Future<void> fetchUser(String userId) async {
-    isLoading = true;
-    notifyListeners();
-
-    final url = Uri.parse(APIService.Login);
-
-    try {
-      final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final responseBody = json.decode(response.body);
-        user = User.fromJson(responseBody);
-      } else {
-        // Manejo de errores
-        throw Exception('Error al cargar el usuario');
-      }
-    } catch (error) {
-      // Manejo de errores
-      throw error;
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
-  }
-  */
 }

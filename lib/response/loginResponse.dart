@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:appchatbot/response/userResponse.dart';
 import 'package:json_annotation/json_annotation.dart';
 

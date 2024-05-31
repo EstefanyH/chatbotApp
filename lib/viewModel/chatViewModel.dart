@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:appchatbot/request/sendRequest.dart';
 import 'package:appchatbot/response/sendResponse.dart';
 import 'package:appchatbot/service/apiConstant.dart';
@@ -12,13 +10,10 @@ class ChatViewModel with ChangeNotifier {
   final chatFormKey = GlobalKey<FormState>();
   final registerFormKey = GlobalKey<FormState>();
   String resultado = "";
-  //final List<Map<String, String>> _messages = [];
 
   void sendMessage(BuildContext context, { required List<Map<String, String>> messages ,required String texto }) async {
   
-    chatBotResponse(SendRequest(msg: texto)) ;
-    //texto = ''; 
-    //messages = _messages; 
+    chatBotResponse(SendRequest(msg: texto)); 
   }
 
   Future<void> chatBotResponse(SendRequest request) async {
@@ -39,9 +34,6 @@ class ChatViewModel with ChangeNotifier {
       if (response.statusCode == 200) {
         final data = SendResponse.fromJson(jsonDecode(response.body));
        
-        //setState(() {
-        //_messages.add({'text': data.message[0].toString(), 'sender': 'bot'});
-        //});
         resultado =  data.message[0].toString();
       } else {
         print('Error en la solicitud: ${response.body}'); 

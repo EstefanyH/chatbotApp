@@ -1,7 +1,5 @@
 import 'package:appchatbot/misc/constant.dart';
-import 'package:appchatbot/misc/validator.dart';
 import 'package:appchatbot/route/routeManager.dart';
-import 'package:appchatbot/view/Login/loginPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

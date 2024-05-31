@@ -27,7 +27,7 @@ class _ChatBotFormState extends State<ChatBotForm> {
     context.read<ChatViewModel>().sendMessage(context,messages: _messages, texto: text);
     
     setState(() {
-    _messages.add({'text': context.read<ChatViewModel>().resultado, 'sender': 'bot'});
+      _messages.add({'text': context.read<ChatViewModel>().resultado, 'sender': 'bot'});
     });
   }
 

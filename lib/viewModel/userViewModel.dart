@@ -1,30 +1,45 @@
-
-import 'dart:convert';
-
+import 'package:appchatbot/network/LoginService.dart';
 import 'package:appchatbot/request/UserRequest.dart';
 import 'package:appchatbot/response/loginResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';
-import 'package:appchatbot/util/apiConstant.dart';
 import 'package:appchatbot/util/constantGlobal.dart';
 import 'package:appchatbot/widget/dialog.dart';
 import 'package:flutter/cupertino.dart'; 
-import 'package:http/http.dart' as http;
 
 class UserViewModel with ChangeNotifier{
   final loginFormKey = GlobalKey<FormState>();
   final registerFormKey = GlobalKey<FormState>();
+  late LoginService service;
 
   bool isLoading = false;
 
+  UserViewModel() {
+    service = LoginService();
+  }
+
   void loginUserInUI(BuildContext context, {
-    required String email, required String password
-  }) async {
+    required String email, required String password }) async {
+
     FocusManager.instance.primaryFocus?.unfocus();
     if(loginFormKey.currentState?.validate() ?? false) {
+       
+      var request = UserResquest(dni: email, password: password);
+      try {
       
-      authentification(context, UserResquest(dni: email, password: password));
+        var data = await service.authentification(request);
+        LoginResponse result = LoginResponse.fromJson(data); 
 
-      //Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage);
+        if (result != null) {
+
+          Token = result.token;
+          IdUsuario = result.user.id;
+          
+          Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage);
+        }
+
+      } catch (error) {
+        print('Error en la solicitud: $error');
+      }
       //showSnackBar();
     }
   }
@@ -57,35 +72,5 @@ class UserViewModel with ChangeNotifier{
       showSnackBar(context, 'Reset instruction sent to $email', 4000);
     }
   }
-
-Future<void> authentification(BuildContext context, UserResquest request) async {
-   
-  final url = Uri.parse(APIConstant.API_LOGIN);
- 
-  try {
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': APIConstant.ContentType, 
-      },
-      body: jsonEncode(request.toJson()), // Convierte el cuerpo a JSON
-    );
- 
-    if (response.statusCode == 200) { 
-      final data = LoginResponse.fromJson(jsonDecode(response.body));
-      //print('Respuesta de la API: $data');
-      Token = data.token;
-      IdUsuario = data.user.id;
-      
-      Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage);
-
-    } else { 
-      print('Error en la solicitud: ${response.statusCode}');
-    }
-  } catch (error) {
-    // Maneja cualquier otro error
-    print('Error en la solicitud: $error');
-  }
-}
 
 }

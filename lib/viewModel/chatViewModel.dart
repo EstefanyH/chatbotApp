@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'package:appchatbot/network/LoginService.dart';
 import 'package:appchatbot/request/sendRequest.dart';
-import 'package:appchatbot/response/closeResponse.dart';
 import 'package:appchatbot/response/sendResponse.dart';
-import 'package:appchatbot/network/ChatService.dart';
 import 'package:appchatbot/route/routeManager.dart';
 import 'package:appchatbot/util/apiConstant.dart';
 import 'package:appchatbot/util/constantGlobal.dart';
@@ -26,7 +24,7 @@ class ChatViewModel with ChangeNotifier {
   }
 
   void close(BuildContext context) async {
-    var result = service.closeAuthetication();
+    var result = await service.closeAuthetication();
     print(result);
     Navigator.popAndPushNamed(context, RouteManager.loginPage);
    

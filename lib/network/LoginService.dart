@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
-
 import 'package:appchatbot/inetwork/ILoginService.dart';
 import 'package:appchatbot/request/UserRequest.dart';
 import 'package:appchatbot/response/closeResponse.dart';
 import 'package:appchatbot/response/loginResponse.dart';
 import 'package:appchatbot/util/apiConstant.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class LoginService extends ILoginService {
@@ -33,6 +30,7 @@ class LoginService extends ILoginService {
   @override
   Future<CloseResponse?> closeAuthetication() async{
     final url = Uri.parse(APIConstant.API_CLOSE);
+    print('url ${url}');
     final response = await http.put(url,
       headers: {
         'Content-Type': APIConstant.ContentType, 
@@ -41,6 +39,7 @@ class LoginService extends ILoginService {
     );
 
     if (response.statusCode == HttpStatus.ok) {
+      print('response -> data: ${jsonDecode(response.body)}}');
       return CloseResponse.fromJson(jsonDecode(response.body));
     }
 

@@ -1,9 +1,17 @@
-import 'package:appchatbot/misc/constant.dart';
 import 'package:appchatbot/view/Chat/chatbotForm.dart';
-import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
  
+
+class ChatBotPage extends StatefulWidget {
+  const ChatBotPage({super.key});
+
+  
+  @override
+  ChatBotForm createState() => ChatBotForm();
+
+}
+
+ /*
 class ChatBotPage extends StatelessWidget {
   const ChatBotPage({super.key});
 
@@ -36,3 +44,4 @@ class ChatBotPage extends StatelessWidget {
       );
   }
 }
+*/

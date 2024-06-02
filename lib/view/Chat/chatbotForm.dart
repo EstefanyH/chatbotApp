@@ -1,57 +1,55 @@
+import 'package:appchatbot/misc/constant.dart';
+import 'package:appchatbot/network/ChatService.dart';
 import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChatBotForm extends StatefulWidget {
-  const ChatBotForm({super.key});
-
-  @override
-  State<ChatBotForm> createState() => _ChatBotFormState();
-}
-
-class _ChatBotFormState extends State<ChatBotForm> {
-  final List<Map<String, String>> _messages = [];
+class ChatBotForm extends ChatViewModel {
+ 
+  ChatService get chatViewModel => context.read<ChatService>();
+  
   final TextEditingController _controller = TextEditingController();
-
- @override
+  
+  @override
   void initState() {
-    super.initState();
+    super.initState(); 
+    chatViewModel.clearMessage();
   }
-
-  void _sendMessage(BuildContext context, String text) {
-    setState(() {
-      _messages.add({'text': text, 'sender': 'user'});
-    });
-    _controller.clear();
-    context.read<ChatViewModel>().sendMessage(context,messages: _messages, texto: text);
-    
-    setState(() { 
-      _messages.add({'text': context.read<ChatViewModel>().resultado, 'sender': 'bot'});
-      context.read<ChatViewModel>().resultado = "";
-    });
-  }
-
+  
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: context.read<ChatViewModel>().chatFormKey,
-      child: Padding(
+    final chatViewModel = Provider.of<ChatService>(context);
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            closeView();
+          },
+          icon: const Icon(Icons.close, 
+          color: Colors.indigo,)),
+        backgroundColor: Colors.white,
+        title: const Text("ChatBot", 
+          style: style16Black,),
+      ),
+      backgroundColor: Colors.white,
+      body:  Padding(
         padding: const EdgeInsets.all(5.0), 
         child: Column(
          children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: _messages.length,
+              itemCount: chatViewModel.messages?.length,
               itemBuilder: (context, index) {
-                final message = _messages[index];
-                final isUser = message['sender'] == 'user';
+                final messagex = chatViewModel.messages?[index];
+                final isUser = messagex?['sender'] == 'user';
                 return ListTile(
                   title: Align(
                     alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       color: isUser ? Colors.blue[100] : Colors.grey[300],
-                      child: Text(message['text']!),
+                      child: Text(messagex!['text']!),
                     ),
                   ),
                 );
@@ -74,7 +72,8 @@ class _ChatBotFormState extends State<ChatBotForm> {
                   icon: const Icon(Icons.send),
                   onPressed: () {
                     if (_controller.text.isNotEmpty) {
-                      _sendMessage(context, _controller.text);
+                      sendMessage(texto: _controller.text);
+                      _controller.clear();
                     }
                   },
                 ),
@@ -90,5 +89,4 @@ class _ChatBotFormState extends State<ChatBotForm> {
       ),  
     );
   }
-
 }

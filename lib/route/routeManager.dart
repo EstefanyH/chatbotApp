@@ -19,7 +19,7 @@ class RouteManager {
         return MaterialPageRoute(builder: (context) => const RegisterPage());
       */
       case chatAppHomePage:
-        return MaterialPageRoute(builder: (context) => const ChatBotPage());
+        return MaterialPageRoute(builder: (context) => ChatBotPage());
       
       default:
         throw Exception("No route found!");

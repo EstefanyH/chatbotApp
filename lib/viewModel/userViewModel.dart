@@ -4,7 +4,8 @@ import 'package:appchatbot/response/loginResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';
 import 'package:appchatbot/util/constantGlobal.dart';
 import 'package:appchatbot/widget/dialog.dart';
-import 'package:flutter/cupertino.dart'; 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart'; 
 
 class UserViewModel with ChangeNotifier{
   final loginFormKey = GlobalKey<FormState>();
@@ -34,7 +35,7 @@ class UserViewModel with ChangeNotifier{
           Token = result.token;
           IdUsuario = result.user.id;
           
-          Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage);
+          Navigator.of(context).popAndPushNamed(RouteManager.chatAppHomePage); 
         }
 
       } catch (error) {

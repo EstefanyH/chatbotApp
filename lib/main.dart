@@ -1,6 +1,6 @@
+import 'package:appchatbot/network/ChatService.dart';
 import 'package:appchatbot/network/LoginService.dart';
 import 'package:appchatbot/util/constantGlobal.dart';
-import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -36,10 +36,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
 
-    /*-- State app: AppLifecycleState.inactive
-I/flutter ( 5432): -- State app: AppLifecycleState.hidden
-I/flutter ( 5432): -- State app: AppLifecycleState.paused
-I/flutter ( 5432): -- State app: AppLifecycleState.detached */
     switch(state) {
       
       case AppLifecycleState.detached:
@@ -75,7 +71,7 @@ I/flutter ( 5432): -- State app: AppLifecycleState.detached */
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserViewModel()),
-        ChangeNotifierProvider(create: (context) => ChatViewModel()),
+        ChangeNotifierProvider(create: (context) => ChatService()),
       ],
       child: MaterialApp( 
         debugShowCheckedModeBanner: false,

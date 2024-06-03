@@ -18,28 +18,23 @@ class ChatViewModel extends State<ChatBotPage> with ChangeNotifier {
     loginservice = LoginService(); 
   }
 
-  final chatFormKey = GlobalKey<FormState>();
-  final registerFormKey = GlobalKey<FormState>();
   
-  String resultado = "";
-
   void sendMessage({ required String texto }) async {  
     
     var request = SendRequest(msg: texto.trim().toString()); 
 
     setState(() {
-      chatmanager.addMessage(request.msg, false);
+      chatmanager.addMessage(request.msg, null, false);
     });
     
     try {
       await chatmanager.chatBotResponse(request);
 
       setState(() { 
-        chatmanager.messages;
+        chatmanager.sendMessage;
       });
        
-    } catch (error) {
-    // Maneja cualquier otro error
+    } catch (error) { 
       print('Error en la solicitud: $error'); 
     }
   }
@@ -50,12 +45,10 @@ class ChatViewModel extends State<ChatBotPage> with ChangeNotifier {
     if (result.data){
       Navigator.popAndPushNamed(context, RouteManager.loginPage);
     }
-   
   }
   
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
+  Widget build(BuildContext context) { 
     throw UnimplementedError();
   }
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:appchatbot/inetwork/iChatService.dart';
 import 'package:appchatbot/request/sendRequest.dart';
+import 'package:appchatbot/response/sendMessage.dart';
 import 'package:appchatbot/response/sendResponse.dart';
 import 'package:appchatbot/util/apiConstant.dart';
 import 'package:appchatbot/util/constantGlobal.dart';
@@ -12,13 +12,31 @@ import 'package:http/http.dart' as http;
 class ChatService extends IChatService with ChangeNotifier{
   String TokenAccess =  'Bearer ${Token}';
 
-  final List<Map<String, String>>? _messages = [];
-  List<Map<String, String>>? get messages => _messages;
-
+   
+  final List<SendMessage>? _sendMessage = [];  
+  List<SendMessage>? get sendMessage => _sendMessage;
+  
   @override
-  Future<void> addMessage(String msg, bool isBot) async {
+  Future<void> addMessage(String msg, dynamic data, bool isBot) async {
+    List<Map<String, String>>? _messages = [];
+    List<Map<String, String>>? _options = [];
+ 
     var user = (isBot)? 'bot' : 'user';
     _messages?.add({'text': msg, 'sender': user});
+
+    if (data != null) {
+      if (data.length < 3){
+        for (var f in data) {
+          _options?.add({'text': f['name'], 'code': f['code']}); 
+        }
+      } else {
+
+          _options?.add({'text': 'Tipo de redención', 'code': 'tipo_retencion'});
+      }
+    }
+    var send = SendMessage(messages: _messages?[0], options: _options);
+    _sendMessage?.add(send);
+    
   }
 
   @override
@@ -36,18 +54,15 @@ class ChatService extends IChatService with ChangeNotifier{
 
     if (response.statusCode == HttpStatus.ok) {
       final result = SendResponse.fromJson(jsonDecode(response.body));
-      if (result != null){
-          //_messages?.add({'text': result.message[0], 'sender': 'bot'});
-          addMessage(result.message[0], true);
+      if (result != null) {
+          addMessage(result.message[0], result.data, true);  
         } 
     }
- 
   }
   
   @override
   Future<void> clearMessage() async {
-    // TODO: implement clearMessage
-    _messages?.clear();
+    _sendMessage?.clear(); 
   }
   
 }

@@ -2,6 +2,7 @@ import 'package:appchatbot/misc/constant.dart';
 import 'package:appchatbot/network/ChatService.dart';
 import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ChatBotForm extends ChatViewModel {
@@ -39,18 +40,48 @@ class ChatBotForm extends ChatViewModel {
          children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: chatViewModel.messages?.length,
+              itemCount: chatViewModel.sendMessage?.length,
               itemBuilder: (context, index) {
-                final messagex = chatViewModel.messages?[index];
-                final isUser = messagex?['sender'] == 'user';
-                return ListTile(
-                  title: Align(
-                    alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: isUser ? Colors.blue[100] : Colors.grey[300],
-                      child: Text(messagex!['text']!),
-                    ),
+                final row = chatViewModel.sendMessage?[index];
+                final message = row?.messages;
+                final option = row?.options;
+                final isUser = message?['sender'] == 'user'; 
+
+                return Card(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  elevation: 0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      ListTile(
+                        title: Align(
+                          alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+                          child:  Container(
+                            padding: const EdgeInsets.all(8),
+                            color: isUser ? Colors.blue[100] : Colors.grey[300],
+                            child: Text(message!['text']!),
+                          ),                          
+                        ),
+                      ),
+                      Wrap(
+                        direction: Axis.vertical, 
+                        children: List.generate(option!.length,(f) {
+                          final buttons = option[f];
+                          final nameBtn = buttons['text'];
+                          final codeBtn = buttons['code'];  
+                          return Visibility(
+                            child: TextButton.icon(
+                              icon:  const Icon(Icons.reply), //Icons.discount
+                              label: Text( nameBtn! ),
+                              onPressed: () {
+                                sendMessage(texto: codeBtn!);
+                              },
+                            )); 
+                        } ),
+                      ),
+                    ],
                   ),
                 );
               },

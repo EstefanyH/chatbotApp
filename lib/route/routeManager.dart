@@ -1,5 +1,6 @@
 import 'package:appchatbot/view/Chat/chatbotPage.dart';
 import 'package:appchatbot/view/Login/loginPage.dart';
+import 'package:appchatbot/view/Register/registerPage.dart';
 import 'package:appchatbot/view/Splash/loadingPage.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +16,8 @@ class RouteManager {
         return MaterialPageRoute(builder: (context) => const LoadingPage());
       case loginPage:
         return MaterialPageRoute(builder: (context) => LoginPage());
-      /*case registerPage:
-        return MaterialPageRoute(builder: (context) => const RegisterPage());
-      */
+      case registerPage:
+        return MaterialPageRoute(builder: (context) => RegisterPage());
       case chatAppHomePage:
         return MaterialPageRoute(builder: (context) => ChatBotPage());
       

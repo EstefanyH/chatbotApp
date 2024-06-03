@@ -24,7 +24,7 @@ class LoginService extends ILoginService with ChangeNotifier {
     if (response.statusCode == HttpStatus.ok) {
       return jsonDecode(response.body);
     }
-
+    
     return null;
   }
 

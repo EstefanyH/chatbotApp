@@ -1,4 +1,4 @@
-import 'package:appchatbot/network/ChatService.dart';
+import 'package:appchatbot/network/chatService.dart';
 import 'package:appchatbot/request/sendRequest.dart';
 import 'package:appchatbot/response/closeResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';

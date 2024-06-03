@@ -1,5 +1,6 @@
-import 'package:appchatbot/network/ChatService.dart';
-import 'package:appchatbot/network/LoginService.dart';
+import 'package:appchatbot/network/chatService.dart';
+import 'package:appchatbot/network/loginService.dart';
+import 'package:appchatbot/network/accountService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -67,6 +68,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => LoginService()),
+        ChangeNotifierProvider(create: (context) => AccountService()),
         ChangeNotifierProvider(create: (context) => ChatService()),
       ],
       child: MaterialApp( 

@@ -1,5 +1,5 @@
 import 'package:appchatbot/misc/constant.dart';
-import 'package:appchatbot/network/ChatService.dart';
+import 'package:appchatbot/network/chatService.dart';
 import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

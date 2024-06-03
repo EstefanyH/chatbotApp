@@ -18,20 +18,18 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   // This widget is the root of your application.
-  late LoginService service;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    service = LoginService();
   }
-
+/*
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
+  } */
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -40,9 +38,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       
       case AppLifecycleState.detached:
         // TODO: Handle this case. 
-        if (IdUsuario != "") {
+        /*if (IdUsuario != "") {
           service.closeAuthetication();
-        }
+        }*/
         break;
       case AppLifecycleState.resumed:
         // TODO: Handle this case.
@@ -70,7 +68,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
  
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => UserViewModel()),
+        ChangeNotifierProvider(create: (context) => LoginService()),
         ChangeNotifierProvider(create: (context) => ChatService()),
       ],
       child: MaterialApp( 

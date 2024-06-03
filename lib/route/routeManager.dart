@@ -14,7 +14,7 @@ class RouteManager {
       case loadingPage: 
         return MaterialPageRoute(builder: (context) => const LoadingPage());
       case loginPage:
-        return MaterialPageRoute(builder: (context) => const LoginPage());
+        return MaterialPageRoute(builder: (context) => LoginPage());
       /*case registerPage:
         return MaterialPageRoute(builder: (context) => const RegisterPage());
       */

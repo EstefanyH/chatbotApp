@@ -22,19 +22,19 @@ class ChatService extends IChatService with ChangeNotifier{
     List<Map<String, String>>? _options = [];
  
     var user = (isBot)? 'bot' : 'user';
-    _messages?.add({'text': msg, 'sender': user});
+    _messages.add({'text': msg, 'sender': user, 'type': 'text'});
 
     if (data != null) {
       if (data.length < 3){
         for (var f in data) {
-          _options?.add({'text': f['name'], 'code': f['code']}); 
+          _options.add({'text': f['name'], 'code': f['code'], 'type': 'list'}); 
         }
       } else {
 
-          _options?.add({'text': 'Tipo de redención', 'code': 'tipo_retencion'});
+          _options.add({'text': 'Tipo de redención', 'code': 'tipo_retencion', 'type': 'select'});
       }
     }
-    var send = SendMessage(messages: _messages?[0], options: _options);
+    var send = SendMessage(messages: _messages[0], options: _options);
     _sendMessage?.add(send);
     
   }
@@ -58,6 +58,25 @@ class ChatService extends IChatService with ChangeNotifier{
           addMessage(result.message[0], result.data, true);  
         } 
     }
+  }
+
+  @override
+  Future<dynamic?> closeAuthetication() async{
+    final url = Uri.parse(APIConstant.API_CLOSE);
+    print('url ${url}');
+    final response = await http.put(url,
+      headers: {
+        'Content-Type': APIConstant.ContentType, 
+      }, // Convierte el cuerpo a JSON
+      body: null,
+    );
+
+    if (response.statusCode == HttpStatus.ok) {
+      print('response -> data: ${jsonDecode(response.body)}}');
+      return jsonDecode(response.body);
+    }
+
+    return null;
   }
   
   @override

@@ -1,6 +1,7 @@
 import 'package:appchatbot/misc/constant.dart';
 import 'package:appchatbot/network/ChatService.dart';
 import 'package:appchatbot/viewModel/chatViewModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -71,12 +72,33 @@ class ChatBotForm extends ChatViewModel {
                           final buttons = option[f];
                           final nameBtn = buttons['text'];
                           final codeBtn = buttons['code'];  
+                          final typeBtn = buttons['type'];  
                           return Visibility(
                             child: TextButton.icon(
-                              icon:  const Icon(Icons.reply), //Icons.discount
+                              icon:  (typeBtn == 'select') ? const Icon(Icons.format_list_bulleted) : const Icon(Icons.reply), //Icons.discount
                               label: Text( nameBtn! ),
                               onPressed: () {
-                                sendMessage(texto: codeBtn!);
+                                if (typeBtn == 'select') {
+                                  showBottomSheet(
+                                    context: context, 
+                                    builder: (builder) {
+                                      return const Wrap(
+                                        children: [
+                                          ListTile(
+                                            title: Text('1 a'),
+                                            subtitle: Text('1b'),
+                                          ),
+                                          ListTile(
+                                            title: Text('2 a'),
+                                            subtitle: Text('2 b'),
+                                          )
+                                        ],
+                                      );
+                                    }
+                                  );
+                                } else {
+                                  showEventOption(codeBtn!);
+                                }
                               },
                             )); 
                         } ),
@@ -110,7 +132,9 @@ class ChatBotForm extends ChatViewModel {
                 ),
                 IconButton(
                   icon: const Icon(Icons.camera),
-                  onPressed: () { },
+                  onPressed: () { 
+
+                  },
                 )
               ],
             ),

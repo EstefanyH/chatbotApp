@@ -28,23 +28,4 @@ class LoginService extends ILoginService with ChangeNotifier {
     return null;
   }
 
-  @override
-  Future<dynamic?> closeAuthetication() async{
-    final url = Uri.parse(APIConstant.API_CLOSE);
-    print('url ${url}');
-    final response = await http.put(url,
-      headers: {
-        'Content-Type': APIConstant.ContentType, 
-      }, // Convierte el cuerpo a JSON
-      body: null,
-    );
-
-    if (response.statusCode == HttpStatus.ok) {
-      print('response -> data: ${jsonDecode(response.body)}}');
-      return jsonDecode(response.body);
-    }
-
-    return null;
-  }
-
 }

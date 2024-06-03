@@ -8,17 +8,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ChatViewModel extends State<ChatBotPage> with ChangeNotifier {
-  late final LoginService loginservice; 
  
   ChatService get chatmanager =>  context.read<ChatService>(); 
 
   @override
   void initState() { 
     super.initState();
-    loginservice = LoginService(); 
   }
 
-  
+  void showEventOption(String id) async {
+    switch(id){
+      case 'tipo_retencion':
+        
+        break;
+      default:
+        sendMessage(texto: id);
+        break;
+    }
+  }
+
   void sendMessage({ required String texto }) async {  
     
     var request = SendRequest(msg: texto.trim().toString()); 
@@ -40,7 +48,7 @@ class ChatViewModel extends State<ChatBotPage> with ChangeNotifier {
   }
 
   void closeView() async {
-    var data = await loginservice.closeAuthetication();
+    var data = await chatmanager.closeAuthetication();
     CloseResponse result = CloseResponse.fromJson(data);
     if (result.data){
       Navigator.popAndPushNamed(context, RouteManager.loginPage);

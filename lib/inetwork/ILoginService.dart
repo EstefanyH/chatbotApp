@@ -5,5 +5,4 @@ abstract class ILoginService {
   
   Future<dynamic?> authentification(UserResquest request);
 
-  Future<dynamic?> closeAuthetication();
 }

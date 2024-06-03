@@ -9,7 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; 
 
-class UserViewModel extends State<LoginPage> with ChangeNotifier {
+class UserViewModel extends State<LoginPage>  {
   
   LoginService get loginmanager =>  context.read<LoginService>();  
 
@@ -20,6 +20,11 @@ class UserViewModel extends State<LoginPage> with ChangeNotifier {
   @override
   void initState(){
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void loginUserInUI(BuildContext context, {

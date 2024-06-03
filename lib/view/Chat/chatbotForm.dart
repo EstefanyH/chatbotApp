@@ -19,6 +19,11 @@ class ChatBotForm extends ChatViewModel {
   }
   
   @override
+  void dispose() {
+    super.dispose();
+  }
+  
+  @override
   Widget build(BuildContext context) {
     final chatViewModel = Provider.of<ChatService>(context);
     return Scaffold(
@@ -46,6 +51,8 @@ class ChatBotForm extends ChatViewModel {
                 final row = chatViewModel.sendMessage?[index];
                 final message = row?.messages;
                 final option = row?.options;
+                final suboption = row?.subOptions;
+
                 final isUser = message?['sender'] == 'user'; 
 
                 return Card(
@@ -69,10 +76,10 @@ class ChatBotForm extends ChatViewModel {
                       Wrap(
                         direction: Axis.vertical, 
                         children: List.generate(option!.length,(f) {
-                          final buttons = option[f];
-                          final nameBtn = buttons['text'];
-                          final codeBtn = buttons['code'];  
-                          final typeBtn = buttons['type'];  
+                          var buttons = option[f];
+                          var nameBtn = buttons['text'];
+                          var codeBtn = buttons['code'];  
+                          var typeBtn = buttons['type'];  
                           return Visibility(
                             child: TextButton.icon(
                               icon:  (typeBtn == 'select') ? const Icon(Icons.format_list_bulleted) : const Icon(Icons.reply), //Icons.discount
@@ -82,17 +89,18 @@ class ChatBotForm extends ChatViewModel {
                                   showBottomSheet(
                                     context: context, 
                                     builder: (builder) {
-                                      return const Wrap(
-                                        children: [
-                                          ListTile(
-                                            title: Text('1 a'),
-                                            subtitle: Text('1b'),
-                                          ),
-                                          ListTile(
-                                            title: Text('2 a'),
-                                            subtitle: Text('2 b'),
-                                          )
-                                        ],
+                                      return Wrap(
+                                        direction: Axis.vertical,
+                                        children: List.generate(suboption!.length,(x) {
+                                          var subBtn = suboption[x];
+                                          var textIn = subBtn['text'];
+                                          var codeIn = subBtn['code'];
+                                          print('option: ${textIn}  ${codeIn}');
+
+                                          return  ListTile(
+                                            title:  Text(textIn!), 
+                                            subtitle:  Text(codeIn!)); 
+                                        })
                                       );
                                     }
                                   );

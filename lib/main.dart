@@ -1,11 +1,9 @@
 import 'package:appchatbot/network/ChatService.dart';
 import 'package:appchatbot/network/LoginService.dart';
-import 'package:appchatbot/util/constantGlobal.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'route/routeManager.dart';
-import 'viewModel/userViewModel.dart';
 
 void main() {
   runApp(MyApp());

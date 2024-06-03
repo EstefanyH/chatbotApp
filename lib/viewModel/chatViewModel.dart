@@ -1,5 +1,4 @@
 import 'package:appchatbot/network/ChatService.dart';
-import 'package:appchatbot/network/LoginService.dart';
 import 'package:appchatbot/request/sendRequest.dart';
 import 'package:appchatbot/response/closeResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';
@@ -7,13 +6,18 @@ import 'package:appchatbot/view/Chat/chatbotPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChatViewModel extends State<ChatBotPage> with ChangeNotifier {
+class ChatViewModel extends State<ChatBotPage>  {
  
   ChatService get chatmanager =>  context.read<ChatService>(); 
 
   @override
   void initState() { 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void showEventOption(String id) async {

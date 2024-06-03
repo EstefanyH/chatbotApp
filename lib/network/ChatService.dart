@@ -20,6 +20,7 @@ class ChatService extends IChatService with ChangeNotifier{
   Future<void> addMessage(String msg, dynamic data, bool isBot) async {
     List<Map<String, String>>? _messages = [];
     List<Map<String, String>>? _options = [];
+    List<Map<String, String>>? _suboptions = [];
  
     var user = (isBot)? 'bot' : 'user';
     _messages.add({'text': msg, 'sender': user, 'type': 'text'});
@@ -30,11 +31,16 @@ class ChatService extends IChatService with ChangeNotifier{
           _options.add({'text': f['name'], 'code': f['code'], 'type': 'list'}); 
         }
       } else {
-
           _options.add({'text': 'Tipo de redención', 'code': 'tipo_retencion', 'type': 'select'});
+
+          for(var f in data){
+            var title = f['Codigo'];
+            var subtitle = '${f['Descripcion']}, tiene un saldo de  ${f['Saldo']}';
+            _suboptions.add({'text': title, 'code': subtitle, 'type': 'item'});
+          }
       }
     }
-    var send = SendMessage(messages: _messages[0], options: _options);
+    var send = SendMessage(messages: _messages[0], options: _options, subOptions: _suboptions);
     _sendMessage?.add(send);
     
   }

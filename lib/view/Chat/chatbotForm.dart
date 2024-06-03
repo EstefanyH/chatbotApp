@@ -1,9 +1,7 @@
 import 'package:appchatbot/misc/constant.dart';
 import 'package:appchatbot/network/ChatService.dart';
 import 'package:appchatbot/viewModel/chatViewModel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class ChatBotForm extends ChatViewModel {
@@ -17,7 +15,7 @@ class ChatBotForm extends ChatViewModel {
     super.initState(); 
     chatViewModel.clearMessage();
   }
-  
+
   @override
   void dispose() {
     super.dispose();
@@ -80,8 +78,7 @@ class ChatBotForm extends ChatViewModel {
                           var nameBtn = buttons['text'];
                           var codeBtn = buttons['code'];  
                           var typeBtn = buttons['type'];  
-                          return Visibility(
-                            child: TextButton.icon(
+                          return TextButton.icon(
                               icon:  (typeBtn == 'select') ? const Icon(Icons.format_list_bulleted) : const Icon(Icons.reply), //Icons.discount
                               label: Text( nameBtn! ),
                               onPressed: () {
@@ -90,16 +87,19 @@ class ChatBotForm extends ChatViewModel {
                                     context: context, 
                                     builder: (builder) {
                                       return Wrap(
-                                        direction: Axis.vertical,
                                         children: List.generate(suboption!.length,(x) {
                                           var subBtn = suboption[x];
                                           var textIn = subBtn['text'];
+                                          var subTitleIn = subBtn['subtitle'];
                                           var codeIn = subBtn['code'];
-                                          print('option: ${textIn}  ${codeIn}');
-
                                           return  ListTile(
                                             title:  Text(textIn!), 
-                                            subtitle:  Text(codeIn!)); 
+                                            subtitle:  Text(subTitleIn!),
+                                            onTap: () {
+                                              var valor = '${codeIn}'; 
+                                              showEventOption(valor);
+                                            },
+                                          ); 
                                         })
                                       );
                                     }
@@ -108,7 +108,7 @@ class ChatBotForm extends ChatViewModel {
                                   showEventOption(codeBtn!);
                                 }
                               },
-                            )); 
+                            ); 
                         } ),
                       ),
                     ],

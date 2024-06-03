@@ -23,7 +23,6 @@ class ChatViewModel extends State<ChatBotPage>  {
   void showEventOption(String id) async {
     switch(id){
       case 'tipo_retencion':
-        
         break;
       default:
         sendMessage(texto: id);

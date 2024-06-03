@@ -31,12 +31,37 @@ class ChatService extends IChatService with ChangeNotifier{
           _options.add({'text': f['name'], 'code': f['code'], 'type': 'list'}); 
         }
       } else {
-          _options.add({'text': 'Tipo de redención', 'code': 'tipo_retencion', 'type': 'select'});
+          var code = '', title = '', subtitle = '';
+          var _splitMsg = msg.split('*'); 
+          var category = _splitMsg[1];
+
+          _options.add({'text': category, 'code': 'tipo', 'type': 'select'});
 
           for(var f in data){
-            var title = f['Codigo'];
-            var subtitle = '${f['Descripcion']}, tiene un saldo de  ${f['Saldo']}';
-            _suboptions.add({'text': title, 'code': subtitle, 'type': 'item'});
+            switch(category){
+              case 'Tipo de rendición de gastos':
+                title = f['Codigo'];
+                subtitle = '${f['Descripcion']}, tiene un saldo de  ${f['Saldo']}';
+                code = f['Codigo'];
+                break;
+              case 'Categoría':
+                title = f['Descripcion'];
+                subtitle = '';
+                code = f['Codigo'];
+                break;
+              case 'Centro de costo':
+                title = f['Descripcion'];
+                subtitle = '';
+                code = f['Codigo'];
+                break;
+            }
+            _suboptions.add({'text': title, 'subtitle': subtitle, 'code': code, 'type': 'item'});
+          }
+
+          if (_suboptions.length > 0) {
+            title = 'Volver al inicio';
+            subtitle = '';
+            _suboptions.add({'text': title, 'subtitle': subtitle, 'code': code,  'type': 'item'});
           }
       }
     }

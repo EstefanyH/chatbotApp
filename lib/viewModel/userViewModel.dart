@@ -12,8 +12,6 @@ import 'package:provider/provider.dart';
 class UserViewModel extends State<LoginPage>  {
   
   LoginService get loginmanager =>  context.read<LoginService>();  
-
-  final GlobalKey<FormState> _formKey = GlobalKey();
   
   bool isLoading = false;
   

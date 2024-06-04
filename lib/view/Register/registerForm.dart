@@ -1,5 +1,4 @@
 import 'package:appchatbot/misc/constant.dart';
-import 'package:appchatbot/misc/validator.dart';
 import 'package:appchatbot/network/accountService.dart';
 import 'package:appchatbot/route/routeManager.dart';
 import 'package:appchatbot/viewModel/accountViewModel.dart';
@@ -39,6 +38,7 @@ class RegisterForm extends AccountViewModel {
 
   @override
   Widget build(BuildContext context) {
+    final accountViewModel = Provider.of<AccountService>(context);
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(

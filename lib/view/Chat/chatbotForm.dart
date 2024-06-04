@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:appchatbot/misc/constant.dart';
 import 'package:appchatbot/network/chatService.dart';
 import 'package:appchatbot/viewModel/chatViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class ChatBotForm extends ChatViewModel {
@@ -141,7 +144,32 @@ class ChatBotForm extends ChatViewModel {
                 IconButton(
                   icon: const Icon(Icons.camera),
                   onPressed: () { 
-
+                    showModalBottomSheet(
+                      context: context, 
+                      builder: (context) {
+                        return Container(
+                          height: 150,
+                          color: Colors.white,
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: const Icon(Icons.camera),
+                                title: const Text('Camera'),
+                                onTap: () {
+                                  _pickImage(ImageSource.camera, context);
+                                },
+                              ),
+                              ListTile(
+                                leading: const Icon(Icons.photo_album),
+                                title: const Text('Gallery'),
+                                onTap: () {
+                                  _pickImage(ImageSource.gallery, context);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      });
                   },
                 )
               ],
@@ -151,5 +179,16 @@ class ChatBotForm extends ChatViewModel {
         ),
       ),  
     );
+
+  }
+
+  void _pickImage(ImageSource source, BuildContext context) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: source);
+    if (image != null) {
+      // Do something with the selected image (e.g., display it, upload it)
+      print('Picked image: ${image.path}');
+    }
+    Navigator.pop(context);
   }
 }

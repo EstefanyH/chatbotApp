@@ -2,13 +2,16 @@ import 'package:appchatbot/network/chatService.dart';
 import 'package:appchatbot/request/sendRequest.dart';
 import 'package:appchatbot/response/closeResponse.dart';
 import 'package:appchatbot/route/routeManager.dart';
+import 'package:appchatbot/util/apiConstant.dart';
 import 'package:appchatbot/view/Chat/chatbotPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ChatViewModel extends State<ChatBotPage>  {
+import '../iViewModel/iEvent.dart';
+
+class ChatViewModel extends State<ChatBotPage> implements IEvents  {
  
-  ChatService get chatmanager =>  context.read<ChatService>(); 
+  ChatService get chatmanager =>  context.read<ChatService>();
 
   @override
   void initState() { 
@@ -20,31 +23,31 @@ class ChatViewModel extends State<ChatBotPage>  {
     super.dispose();
   }
 
+  @override
   void showEventOption(String id) async {
-    switch(id){
-      case 'tipo_retencion':
-        break;
+    switch(id) {
       default:
-        sendMessage(texto: id);
+        sendMessage(texto: id, type: TypeMessage.text);
         break;
     }
   }
 
-  void sendMessage({ required String texto }) async {  
+  void sendMessage({ required String texto, required TypeMessage type }) async {
     
     var request = SendRequest(msg: texto.trim().toString()); 
 
     setState(() {
-      chatmanager.addMessage(request.msg, null, false);
+      chatmanager.addMessage(request.msg, null, false, type);
     });
     
     try {
-      await chatmanager.chatBotResponse(request);
+      if (TypeMessage.img != type) {
+        await chatmanager.chatBotResponse(request);
 
-      setState(() { 
-        chatmanager.sendMessage;
-      });
-       
+        setState(() {
+          chatmanager.sendMessage;
+        });
+      }
     } catch (error) { 
       print('Error en la solicitud: $error'); 
     }

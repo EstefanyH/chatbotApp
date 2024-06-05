@@ -11,3 +11,11 @@ class APIConstant {
   
   static const String ContentType = 'application/json';
  }
+
+ enum TypeMessage {
+   text,
+   img,
+   select,
+   list,
+   item
+ }

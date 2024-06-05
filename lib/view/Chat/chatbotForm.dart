@@ -1,8 +1,13 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:appchatbot/misc/constant.dart';
 import 'package:appchatbot/network/chatService.dart';
+import 'package:appchatbot/util/apiConstant.dart';
 import 'package:appchatbot/viewModel/chatViewModel.dart';
+import 'package:appchatbot/widget/chatMessageInput.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +17,8 @@ class ChatBotForm extends ChatViewModel {
   ChatService get chatViewModel => context.read<ChatService>();
   
   final TextEditingController _controller = TextEditingController();
+  Image? _image;
+  Uint8List? _imageBytes;
   
   @override
   void initState() {
@@ -27,6 +34,8 @@ class ChatBotForm extends ChatViewModel {
   @override
   Widget build(BuildContext context) {
     final chatViewModel = Provider.of<ChatService>(context);
+    
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -54,69 +63,11 @@ class ChatBotForm extends ChatViewModel {
                 final option = row?.options;
                 final suboption = row?.subOptions;
 
-                final isUser = message?['sender'] == 'user'; 
+                final isUser = message?['sender'] == 'user';
 
-                return Card(
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  elevation: 0,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ListTile(
-                        title: Align(
-                          alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-                          child:  Container(
-                            padding: const EdgeInsets.all(8),
-                            color: isUser ? Colors.blue[100] : Colors.grey[300],
-                            child: Text(message!['text']!),
-                          ),                          
-                        ),
-                      ),
-                      Wrap(
-                        direction: Axis.vertical, 
-                        children: List.generate(option!.length,(f) {
-                          var buttons = option[f];
-                          var nameBtn = buttons['text'];
-                          var codeBtn = buttons['code'];  
-                          var typeBtn = buttons['type'];  
-                          return TextButton.icon(
-                              icon:  (typeBtn == 'select') ? const Icon(Icons.format_list_bulleted) : const Icon(Icons.reply), //Icons.discount
-                              label: Text( nameBtn! ),
-                              onPressed: () {
-                                if (typeBtn == 'select') {
-                                  showBottomSheet(
-                                    context: context, 
-                                    builder: (builder) {
-                                      return Wrap(
-                                        children: List.generate(suboption!.length,(x) {
-                                          var subBtn = suboption[x];
-                                          var textIn = subBtn['text'];
-                                          var subTitleIn = subBtn['subtitle'];
-                                          var codeIn = subBtn['code'];
-                                          return  ListTile(
-                                            title:  Text(textIn!), 
-                                            subtitle:  Text(subTitleIn!),
-                                            onTap: () {
-                                              var valor = '${codeIn}'; 
-                                              showEventOption(valor);
-                                            },
-                                          ); 
-                                        })
-                                      );
-                                    }
-                                  );
-                                } else {
-                                  showEventOption(codeBtn!);
-                                }
-                              },
-                            ); 
-                        } ),
-                      ),
-                    ],
-                  ),
-                );
+                return ChatMessageInput(
+                    item: row,
+                    viewModel: this,) ;
               },
             ),
           ),
@@ -136,7 +87,7 @@ class ChatBotForm extends ChatViewModel {
                   icon: const Icon(Icons.send),
                   onPressed: () {
                     if (_controller.text.isNotEmpty) {
-                      sendMessage(texto: _controller.text);
+                      sendMessage(texto: _controller.text, type: TypeMessage.text);
                       _controller.clear();
                     }
                   },
@@ -154,14 +105,14 @@ class ChatBotForm extends ChatViewModel {
                             children: <Widget>[
                               ListTile(
                                 leading: const Icon(Icons.camera),
-                                title: const Text('Camera'),
+                                title: const Text('Camara'),
                                 onTap: () {
                                   _pickImage(ImageSource.camera, context);
                                 },
                               ),
                               ListTile(
                                 leading: const Icon(Icons.photo_album),
-                                title: const Text('Gallery'),
+                                title: const Text('Galeria'),
                                 onTap: () {
                                   _pickImage(ImageSource.gallery, context);
                                 },
@@ -188,7 +139,10 @@ class ChatBotForm extends ChatViewModel {
     if (image != null) {
       // Do something with the selected image (e.g., display it, upload it)
       print('Picked image: ${image.path}');
+
+      sendMessage(texto: image.path, type: TypeMessage.img);
     }
     Navigator.pop(context);
   }
+
 }

@@ -59,11 +59,6 @@ class ChatBotForm extends ChatViewModel {
               itemCount: chatViewModel.sendMessage?.length,
               itemBuilder: (context, index) {
                 final row = chatViewModel.sendMessage?[index];
-                final message = row?.messages;
-                final option = row?.options;
-                final suboption = row?.subOptions;
-
-                final isUser = message?['sender'] == 'user';
 
                 return ChatMessageInput(
                     item: row,
